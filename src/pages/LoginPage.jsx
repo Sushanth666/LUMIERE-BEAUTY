@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, ShieldCheck, CheckCircle2, Star, Sun, Moon, AlertCircle } from 'lucide-react';
+import { Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, ShieldCheck, CheckCircle2, Star, Sun, Moon, AlertCircle, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
 import LumiereLogo from '../components/common/LumiereLogo';
 
