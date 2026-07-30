@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, ShieldCheck, CheckCircle2, Star, Sun, Moon } from 'lucide-react';
+import { Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, ShieldCheck, CheckCircle2, Star, Sun, Moon, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import LumiereLogo from '../components/common/LumiereLogo';
 
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'signup'
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formError, setFormError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -50,39 +51,50 @@ export default function LoginPage() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    setFormError('');
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
+  const handleModeSwitch = (mode) => {
+    setFormError('');
+    setAuthMode(mode);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormError('');
     toast.dismiss();
 
     if (authMode === 'login') {
-      const success = login({ email: formData.email, password: formData.password });
-      if (success) {
+      const res = login({ email: formData.email, password: formData.password });
+      if (res && res.success) {
+        setFormError('');
         navigate('/');
+      } else {
+        setFormError(res?.error || 'No account found with this email or password.');
       }
     } else {
       if (!formData.name.trim()) {
-        toast.error('Please enter your full name');
+        setFormError('Please enter your full name');
         return;
       }
       if (formData.password !== formData.confirmPassword) {
-        toast.error('Passwords do not match. Please verify your confirm password.');
+        setFormError('Passwords do not match. Please verify your confirm password.');
         return;
       }
 
-      const success = signup({
+      const res = signup({
         name: formData.name,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
       });
 
-      if (success) {
+      if (res && res.success) {
+        setFormError('');
         toast.success(`🎉 Welcome to Lumière, ${formData.name}! Account created successfully.`, {
           duration: 3500,
           style: {
@@ -97,6 +109,8 @@ export default function LoginPage() {
         setTimeout(() => {
           navigate('/');
         }, 400);
+      } else {
+        setFormError(res?.error || 'Could not create account.');
       }
     }
   };
@@ -271,12 +285,12 @@ export default function LoginPage() {
           background: isDark ? 'rgba(0, 0, 0, 0.35)' : '#f1f5f9',
           borderRadius: '16px',
           padding: '5px',
-          marginBottom: '2rem',
+          marginBottom: '1.5rem',
           border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #e2e8f0',
         }}>
           <button
             type="button"
-            onClick={() => setAuthMode('login')}
+            onClick={() => handleModeSwitch('login')}
             style={{
               flex: 1,
               padding: '0.75rem',
@@ -295,7 +309,7 @@ export default function LoginPage() {
           </button>
           <button
             type="button"
-            onClick={() => setAuthMode('signup')}
+            onClick={() => handleModeSwitch('signup')}
             style={{
               flex: 1,
               padding: '0.75rem',
@@ -313,6 +327,51 @@ export default function LoginPage() {
             Register
           </button>
         </div>
+
+        {/* Inline Error Alert Banner */}
+        {formError && (
+          <div style={{
+            background: isDark ? 'rgba(239, 68, 68, 0.18)' : '#fef2f2',
+            border: '1.5px solid #ef4444',
+            borderRadius: '16px',
+            padding: '1rem 1.1rem',
+            marginBottom: '1.5rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            color: isDark ? '#fca5a5' : '#991b1b',
+            fontSize: '0.88rem',
+            lineHeight: '1.45',
+            boxShadow: '0 4px 14px rgba(239, 68, 68, 0.15)',
+          }}>
+            <AlertCircle size={20} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <div style={{ fontWeight: '700', marginBottom: '2px', color: '#ef4444', fontSize: '0.92rem' }}>
+                Account Not Found / Error
+              </div>
+              <div>{formError}</div>
+              {authMode === 'login' && formError.toLowerCase().includes('no account found') && (
+                <button
+                  type="button"
+                  onClick={() => handleModeSwitch('signup')}
+                  style={{
+                    background: '#ef4444',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '4px 10px',
+                    fontSize: '0.78rem',
+                    fontWeight: '700',
+                    marginTop: '8px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Click here to Register
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>

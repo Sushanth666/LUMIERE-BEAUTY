@@ -93,16 +93,6 @@ function AppShell() {
       </main>
       <Footer />
       <MobileNav />
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          duration: 3000,
-          style: {
-            fontFamily: 'var(--font-body)',
-            borderRadius: '12px',
-          },
-        }}
-      />
     </>
   );
 }
@@ -121,6 +111,20 @@ export default function App() {
           </CartProvider>
         </AuthProvider>
       </ThemeProvider>
+      {/* Toaster lives outside AppShell so it works on LoginPage too */}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3500,
+          style: {
+            fontFamily: 'var(--font-body)',
+            borderRadius: '12px',
+            fontSize: '0.9rem',
+            fontWeight: '600',
+            padding: '12px 18px',
+          },
+        }}
+      />
     </BrowserRouter>
   );
 }

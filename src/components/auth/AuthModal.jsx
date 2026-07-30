@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { X, Mail, Lock, User, Phone, Eye, EyeOff, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { X, Mail, Lock, User, Phone, Eye, EyeOff, Sparkles, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function AuthModal() {
   const { isAuthModalOpen, closeAuthModal, authMode, setAuthMode, login, signup } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [modalError, setModalError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,31 +19,45 @@ export default function AuthModal() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    setModalError('');
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
+  const handleModeSwitch = (mode) => {
+    setModalError('');
+    setAuthMode(mode);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    setModalError('');
     if (authMode === 'login') {
-      login({ email: formData.email, password: formData.password });
+      const res = login({ email: formData.email, password: formData.password });
+      if (res && !res.success) {
+        setModalError(res.error || 'Invalid credentials or account does not exist.');
+      }
     } else {
       if (!formData.name.trim()) {
-        alert('Please enter your full name');
+        setModalError('Please enter your full name');
         return;
       }
-      signup({
+      const res = signup({
         name: formData.name,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
       });
+      if (res && !res.success) {
+        setModalError(res.error || 'Could not create account.');
+      }
     }
   };
 
   const fillDemoCredentials = () => {
+    setModalError('');
     setFormData({
       name: 'Priya Sharma',
       email: 'priya@example.com',
@@ -101,11 +116,11 @@ export default function AuthModal() {
         <div style={{
           display: 'grid', gridTemplateColumns: '1fr 1fr',
           background: 'var(--bg-primary)', borderRadius: '50px',
-          padding: '4px', marginBottom: '1.5rem',
+          padding: '4px', marginBottom: '1.25rem',
           border: '1px solid var(--border-color)',
         }}>
           <button
-            onClick={() => setAuthMode('login')}
+            onClick={() => handleModeSwitch('login')}
             style={{
               padding: '0.6rem', borderRadius: '50px', border: 'none',
               fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer',
@@ -118,7 +133,7 @@ export default function AuthModal() {
             Sign In
           </button>
           <button
-            onClick={() => setAuthMode('signup')}
+            onClick={() => handleModeSwitch('signup')}
             style={{
               padding: '0.6rem', borderRadius: '50px', border: 'none',
               fontWeight: '700', fontSize: '0.85rem', cursor: 'pointer',
@@ -131,6 +146,29 @@ export default function AuthModal() {
             Register
           </button>
         </div>
+
+        {/* Inline Error Alert Banner */}
+        {modalError && (
+          <div style={{
+            background: 'rgba(239, 68, 68, 0.12)',
+            border: '1.5px solid #ef4444',
+            borderRadius: '14px',
+            padding: '0.85rem 1rem',
+            marginBottom: '1.25rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '10px',
+            color: '#ef4444',
+            fontSize: '0.85rem',
+            lineHeight: '1.4',
+          }}>
+            <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <div style={{ fontWeight: '700', marginBottom: '2px' }}>Authentication Error</div>
+              <div>{modalError}</div>
+            </div>
+          </div>
+        )}
 
         {/* Auth Form */}
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

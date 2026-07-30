@@ -78,8 +78,9 @@ export function AuthProvider({ children }) {
   const signup = ({ name, email, password, phone }) => {
     const existing = users.find(u => u.email.toLowerCase() === email.toLowerCase());
     if (existing) {
-      toast.error('An account with this email already exists!');
-      return false;
+      const errorMsg = `An account with email "${email}" already exists! Please Sign In instead.`;
+      toast.error(errorMsg);
+      return { success: false, error: errorMsg };
     }
 
     const newUser = {
@@ -97,7 +98,7 @@ export function AuthProvider({ children }) {
     setUsers(prev => [...prev, newUser]);
     setCurrentUser(newUser);
     closeAuthModal();
-    return true;
+    return { success: true };
   };
 
   // Login
@@ -105,19 +106,21 @@ export function AuthProvider({ children }) {
     const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
     if (!user) {
-      toast.error('No account found with this email. Please sign up!');
-      return false;
+      const errorMsg = `No account found for "${email}". Please check your email or Register for a new account!`;
+      toast.error(errorMsg);
+      return { success: false, error: errorMsg };
     }
 
     if (user.password !== password) {
-      toast.error('Incorrect password. Please try again!');
-      return false;
+      const errorMsg = `Incorrect password for "${email}". Please try again or check demo password.`;
+      toast.error(errorMsg);
+      return { success: false, error: errorMsg };
     }
 
     setCurrentUser(user);
     closeAuthModal();
     toast.success(`Welcome back, ${user.name}! ✨`);
-    return true;
+    return { success: true };
   };
 
   // Logout
