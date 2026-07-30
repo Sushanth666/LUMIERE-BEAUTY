@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingBag, Heart, Search, Sun, Moon, Menu, X, ChevronDown, Sparkles, BarChart2, User } from 'lucide-react';
+import { ShoppingBag, Heart, Search, Sun, Moon, ChevronDown, Sparkles, BarChart2, User } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -28,7 +28,6 @@ const navLinks = [
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const { totalItems } = useCart();
   const { count: wishlistCount } = useWishlist();
@@ -46,7 +45,6 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setIsMobileMenuOpen(false);
     setActiveDropdown(null);
   }, [location.pathname]);
 
@@ -216,48 +214,11 @@ export default function Navbar() {
                 </button>
               )}
 
-              {/* Mobile hamburger – hidden on mobile (bottom MobileNav handles it) */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="hidden-mobile"
-                style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  padding: '8px', borderRadius: '8px', color: 'var(--text-primary)',
-                  display: 'flex',
-                }}
-              >
-                {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-              </button>
+
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div style={{
-            background: 'var(--bg-card)',
-            borderTop: '1px solid var(--border-color)',
-            padding: '1rem 1.5rem 1.5rem',
-            animation: 'fadeInUp 0.2s ease',
-          }}>
-            {navLinks.map(link => (
-              <Link key={link.path} to={link.path} style={{
-                display: 'block', padding: '0.75rem 0',
-                textDecoration: 'none', color: location.pathname === link.path ? '#f43f5e' : 'var(--text-primary)',
-                fontWeight: '500', borderBottom: '1px solid var(--border-color)',
-                fontSize: '1rem',
-              }}>
-                {link.label}
-              </Link>
-            ))}
-            <Link to="/cart" style={{
-              display: 'block', padding: '0.75rem 0',
-              textDecoration: 'none', color: 'var(--text-primary)', fontWeight: '500',
-            }}>
-              Cart
-            </Link>
-          </div>
-        )}
       </nav>
 
       {/* Mini Cart Drawer */}
