@@ -563,6 +563,134 @@ input[type="range"]::-webkit-slider-thumb {
   }
 }
 
+/* =====================
+   GLOBAL MOBILE UTILITIES
+   ===================== */
+@media (max-width: 768px) {
+  .hidden-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
+
+  /* Extra bottom padding so content doesn't hide behind mobile nav */
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+/* =====================
+   PROFILE PAGE — MOBILE
+   ===================== */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+}
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 0 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .profile-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .profile-sidebar {
+    /* Horizontal scrollable tab row on mobile */
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .profile-sidebar::-webkit-scrollbar { display: none; }
+
+  .profile-sidebar button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.82rem !important;
+    padding: 0.65rem 1rem !important;
+  }
+}
+
+/* =====================
+   FOOTER — MOBILE
+   ===================== */
+.footer-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    padding: 2.5rem 1rem 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* Brand column takes full width on mobile */
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* =====================
+   PROFILE HEADER BANNER — MOBILE
+   ===================== */
+@media (max-width: 640px) {
+  /* Profile header: reduce padding, shrink avatar */
+  .profile-page > div:first-child {
+    padding: 1.5rem 1.25rem !important;
+    border-radius: 20px !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* Profile header inner row */
+  .profile-page > div:first-child > div:last-child {
+    gap: 0.75rem !important;
+  }
+
+  /* Avatar */
+  .profile-page > div:first-child h1 {
+    font-size: 1.4rem !important;
+  }
+
+  .profile-page > div:first-child p {
+    font-size: 0.78rem !important;
+  }
+
+  /* Sign out button */
+  .profile-page > div:first-child button {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Content area padding */
+  .profile-layout > div:last-child {
+    padding: 1.25rem !important;
+    border-radius: 18px !important;
+  }
+}
+
 /* Checkout steps */
 .step-indicator {
   display: flex;

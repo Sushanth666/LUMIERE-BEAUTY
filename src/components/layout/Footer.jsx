@@ -43,12 +43,7 @@ export default function Footer() {
       marginTop: '0',
     }}>
       {/* Top section */}
-      <div style={{
-        maxWidth: '1280px', margin: '0 auto', padding: '4rem 1.5rem 2rem',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-        gap: '3rem',
-      }}>
+      <div className="footer-grid">
         {/* Brand */}
         <div style={{ gridColumn: 'span 1' }}>
           <div style={{ marginBottom: '1.5rem' }}>
@@ -152,6 +147,7 @@ export default function Footer() {
         borderTop: '1px solid var(--border-color)',
         padding: '1.5rem',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexWrap: 'wrap',
         gap: '6px',
         color: 'var(--text-muted)', fontSize: '0.8rem', textAlign: 'center',
       }}>

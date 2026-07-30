@@ -59,7 +59,7 @@ export default function Profile() {
   };
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0.5rem auto 4rem', padding: '0 1.5rem' }}>
+    <div style={{ maxWidth: '1100px', margin: '0.5rem auto 4rem', padding: '0 1rem' }} className="profile-page">
       {/* Header Profile Banner */}
       <div style={{
         background: 'linear-gradient(135deg, #1a0a0f 0%, #2b1220 50%, #16162a 100%)',
@@ -69,7 +69,7 @@ export default function Profile() {
       }}>
         <div style={{ position: 'absolute', right: '-40px', top: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(244,63,94,0.2), transparent)', pointerEvents: 'none' }} />
         
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <div style={{
               width: '72px', height: '72px', borderRadius: '50%',
@@ -134,9 +134,9 @@ export default function Profile() {
       </div>
 
       {/* Tabs Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '2rem' }}>
+      <div className="profile-layout">
         {/* Sidebar Nav */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div className="profile-sidebar">
           {[
             { id: 'profile', label: 'Personal Information', icon: User },
             { id: 'orders', label: 'Order History', icon: Package, count: currentUser.orders?.length || 0 },
