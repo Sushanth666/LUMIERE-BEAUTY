@@ -328,45 +328,70 @@ export default function LoginPage() {
           </button>
         </div>
 
-        {/* Inline Error Alert Banner */}
+        {/* Inline Notice / Alert Banner */}
         {formError && (
           <div style={{
-            background: isDark ? 'rgba(239, 68, 68, 0.18)' : '#fef2f2',
-            border: '1.5px solid #ef4444',
+            background: formError.toLowerCase().includes('account not found')
+              ? (isDark ? 'rgba(244, 63, 94, 0.15)' : '#fff1f2')
+              : (isDark ? 'rgba(239, 68, 68, 0.18)' : '#fef2f2'),
+            border: formError.toLowerCase().includes('account not found')
+              ? '1.5px solid #f43f5e'
+              : '1.5px solid #ef4444',
             borderRadius: '16px',
-            padding: '1rem 1.1rem',
+            padding: '1rem 1.15rem',
             marginBottom: '1.5rem',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '12px',
-            color: isDark ? '#fca5a5' : '#991b1b',
+            color: formError.toLowerCase().includes('account not found')
+              ? (isDark ? '#fda4af' : '#9f1239')
+              : (isDark ? '#fca5a5' : '#991b1b'),
             fontSize: '0.88rem',
             lineHeight: '1.45',
-            boxShadow: '0 4px 14px rgba(239, 68, 68, 0.15)',
+            boxShadow: '0 4px 14px rgba(244, 63, 94, 0.12)',
+            animation: 'fadeInUp 0.25s ease',
           }}>
-            <AlertCircle size={20} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+            {formError.toLowerCase().includes('account not found') ? (
+              <Sparkles size={22} color="#f43f5e" style={{ flexShrink: 0, marginTop: '2px' }} />
+            ) : (
+              <AlertCircle size={20} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+            )}
             <div>
-              <div style={{ fontWeight: '700', marginBottom: '2px', color: '#ef4444', fontSize: '0.92rem' }}>
-                Account Not Found / Error
+              <div style={{
+                fontWeight: '700',
+                marginBottom: '4px',
+                color: formError.toLowerCase().includes('account not found') ? '#f43f5e' : '#ef4444',
+                fontSize: '0.95rem'
+              }}>
+                {formError.toLowerCase().includes('account not found') ? 'Account Not Found' : 'Incorrect Password'}
               </div>
-              <div>{formError}</div>
-              {authMode === 'login' && formError.toLowerCase().includes('no account found') && (
+              <div style={{ fontSize: '0.86rem', color: isDark ? 'rgba(255, 255, 255, 0.9)' : '#334155' }}>
+                {formError.toLowerCase().includes('account not found')
+                  ? `No account registered with "${formData.email}". Would you like to create an account?`
+                  : formError}
+              </div>
+              {authMode === 'login' && formError.toLowerCase().includes('account not found') && (
                 <button
                   type="button"
                   onClick={() => handleModeSwitch('signup')}
                   style={{
-                    background: '#ef4444',
+                    background: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)',
                     color: '#ffffff',
                     border: 'none',
-                    borderRadius: '8px',
-                    padding: '4px 10px',
-                    fontSize: '0.78rem',
+                    borderRadius: '10px',
+                    padding: '6px 14px',
+                    fontSize: '0.82rem',
                     fontWeight: '700',
-                    marginTop: '8px',
+                    marginTop: '10px',
                     cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 4px 12px rgba(244, 63, 94, 0.3)',
+                    transition: 'transform 0.2s ease',
                   }}
                 >
-                  Click here to Register
+                  Register Account Now <ArrowRight size={14} />
                 </button>
               )}
             </div>

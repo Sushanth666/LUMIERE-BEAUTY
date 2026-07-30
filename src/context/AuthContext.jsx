@@ -106,15 +106,23 @@ export function AuthProvider({ children }) {
     const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
     if (!user) {
-      const errorMsg = `No account found for "${email}". Please check your email or Register for a new account!`;
-      toast.error(errorMsg);
-      return { success: false, error: errorMsg };
+      const errorMsg = `Account Not Found: No account is registered with "${email}".`;
+      toast(`🌸 Account Not Found: No registered user with "${email}". Please sign up!`, {
+        duration: 4000,
+        style: {
+          borderRadius: '14px',
+          background: '#1e293b',
+          color: '#fff',
+          fontWeight: '600',
+        },
+      });
+      return { success: false, isNotFound: true, error: errorMsg };
     }
 
     if (user.password !== password) {
-      const errorMsg = `Incorrect password for "${email}". Please try again or check demo password.`;
+      const errorMsg = `Incorrect Password: Please check your password and try again.`;
       toast.error(errorMsg);
-      return { success: false, error: errorMsg };
+      return { success: false, isNotFound: false, error: errorMsg };
     }
 
     setCurrentUser(user);

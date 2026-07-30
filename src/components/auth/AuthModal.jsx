@@ -147,25 +147,63 @@ export default function AuthModal() {
           </button>
         </div>
 
-        {/* Inline Error Alert Banner */}
+        {/* Inline Notice / Alert Banner */}
         {modalError && (
           <div style={{
-            background: 'rgba(239, 68, 68, 0.12)',
-            border: '1.5px solid #ef4444',
+            background: modalError.toLowerCase().includes('account not found')
+              ? 'rgba(244, 63, 94, 0.1)'
+              : 'rgba(239, 68, 68, 0.12)',
+            border: modalError.toLowerCase().includes('account not found')
+              ? '1.5px solid #f43f5e'
+              : '1.5px solid #ef4444',
             borderRadius: '14px',
-            padding: '0.85rem 1rem',
+            padding: '0.9rem 1rem',
             marginBottom: '1.25rem',
             display: 'flex',
             alignItems: 'flex-start',
             gap: '10px',
-            color: '#ef4444',
+            color: 'var(--text-primary)',
             fontSize: '0.85rem',
             lineHeight: '1.4',
           }}>
-            <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+            {modalError.toLowerCase().includes('account not found') ? (
+              <Sparkles size={20} color="#f43f5e" style={{ flexShrink: 0, marginTop: '2px' }} />
+            ) : (
+              <AlertCircle size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+            )}
             <div>
-              <div style={{ fontWeight: '700', marginBottom: '2px' }}>Authentication Error</div>
-              <div>{modalError}</div>
+              <div style={{
+                fontWeight: '700',
+                marginBottom: '2px',
+                color: modalError.toLowerCase().includes('account not found') ? '#f43f5e' : '#ef4444'
+              }}>
+                {modalError.toLowerCase().includes('account not found') ? 'Account Not Found' : 'Incorrect Password'}
+              </div>
+              <div style={{ color: 'var(--text-secondary)' }}>
+                {modalError.toLowerCase().includes('account not found')
+                  ? `No account registered with "${formData.email}". Please create an account.`
+                  : modalError}
+              </div>
+              {authMode === 'login' && modalError.toLowerCase().includes('account not found') && (
+                <button
+                  type="button"
+                  onClick={() => handleModeSwitch('signup')}
+                  style={{
+                    background: 'linear-gradient(135deg, #f43f5e, #e11d48)',
+                    color: '#white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '4px 10px',
+                    fontSize: '0.78rem',
+                    fontWeight: '700',
+                    marginTop: '8px',
+                    cursor: 'pointer',
+                    color: 'white',
+                  }}
+                >
+                  Register Account Now
+                </button>
+              )}
             </div>
           </div>
         )}
