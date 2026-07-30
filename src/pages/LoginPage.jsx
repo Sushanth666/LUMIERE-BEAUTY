@@ -435,7 +435,7 @@ export default function LoginPage() {
               Email Address
             </label>
             <div style={{ position: 'relative' }}>
-              <Mail size={18} color={formError && (formError.toLowerCase().includes('no account') || formError.toLowerCase().includes('email')) ? '#ef4444' : (isDark ? 'rgba(255, 255, 255, 0.4)' : '#94a3b8')} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Mail size={18} color={isDark ? 'rgba(255, 255, 255, 0.4)' : '#94a3b8'} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
               <input
                 type="email"
                 name="email"
@@ -447,9 +447,7 @@ export default function LoginPage() {
                   padding: '0.85rem 1rem 0.85rem 46px',
                   borderRadius: '14px',
                   background: isDark ? 'rgba(0, 0, 0, 0.3)' : '#ffffff',
-                  border: formError && (formError.toLowerCase().includes('no account') || formError.toLowerCase().includes('email'))
-                    ? '2px solid #ef4444'
-                    : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #cbd5e1'),
+                  border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #cbd5e1',
                   color: isDark ? '#ffffff' : '#0f172a',
                   fontSize: '0.92rem',
                   outline: 'none',
@@ -458,11 +456,6 @@ export default function LoginPage() {
                 required
               />
             </div>
-            {formError && (formError.toLowerCase().includes('no account') || formError.toLowerCase().includes('email')) && (
-              <span style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '6px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                ⚠️ Account not found with this email. Please check your email or click Register above.
-              </span>
-            )}
           </div>
 
           {authMode === 'signup' && (
@@ -498,7 +491,7 @@ export default function LoginPage() {
               Password
             </label>
             <div style={{ position: 'relative' }}>
-              <Lock size={18} color={formError && formError.toLowerCase().includes('password') ? '#ef4444' : (isDark ? 'rgba(255, 255, 255, 0.4)' : '#94a3b8')} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+              <Lock size={18} color={isDark ? 'rgba(255, 255, 255, 0.4)' : '#94a3b8'} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 name="password"
@@ -510,9 +503,7 @@ export default function LoginPage() {
                   padding: '0.85rem 46px 0.85rem 46px',
                   borderRadius: '14px',
                   background: isDark ? 'rgba(0, 0, 0, 0.3)' : '#ffffff',
-                  border: formError && formError.toLowerCase().includes('password')
-                    ? '2px solid #ef4444'
-                    : (isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #cbd5e1'),
+                  border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #cbd5e1',
                   color: isDark ? '#ffffff' : '#0f172a',
                   fontSize: '0.92rem',
                   outline: 'none',
@@ -530,11 +521,6 @@ export default function LoginPage() {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-            {formError && formError.toLowerCase().includes('password') && (
-              <span style={{ fontSize: '0.8rem', color: '#ef4444', marginTop: '6px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                ⚠️ Incorrect password. Please try again or check demo password.
-              </span>
-            )}
 
             {/* Password Strength Indicator (Signup Mode) */}
             {authMode === 'signup' && formData.password.length > 0 && (
