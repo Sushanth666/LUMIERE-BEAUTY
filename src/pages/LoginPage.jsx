@@ -138,21 +138,64 @@ export default function LoginPage() {
         filter: 'blur(80px)', pointerEvents: 'none',
       }} />
 
+      {/* ── Desktop: absolute top-right toggle (hidden on mobile) ── */}
+      <button
+        type="button"
+        onClick={toggleTheme}
+        aria-label="Toggle Theme"
+        className="login-theme-btn-desktop"
+        style={{
+          position: 'absolute',
+          top: '24px',
+          right: '24px',
+          zIndex: 10,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '0.65rem 1.2rem',
+          borderRadius: '50px',
+          border: isDark ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(244, 63, 94, 0.25)',
+          background: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          color: isDark ? '#fef08a' : '#be123c',
+          fontWeight: '600',
+          fontSize: '0.85rem',
+          cursor: 'pointer',
+          boxShadow: isDark
+            ? '0 8px 25px rgba(0, 0, 0, 0.4)'
+            : '0 8px 25px rgba(244, 63, 94, 0.15)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+      >
+        {isDark ? (
+          <>
+            <Sun size={18} color="#f59e0b" style={{ transition: 'transform 0.5s ease' }} />
+            <span>Light Mode</span>
+          </>
+        ) : (
+          <>
+            <Moon size={18} color="#9333ea" style={{ transition: 'transform 0.5s ease' }} />
+            <span>Dark Mode</span>
+          </>
+        )}
+      </button>
+
       {/* Brand Header */}
       <div style={{ marginBottom: '1rem', textAlign: 'center', position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'center' }}>
         <LumiereLogo size={52} showSubtitle={true} textColor={isDark ? '#ffffff' : '#1e293b'} />
       </div>
 
-      {/* Theme Toggle — centered below logo, never overlaps brand name */}
+      {/* ── Mobile only: centered toggle below logo (hidden on desktop) ── */}
       <button
         type="button"
         onClick={toggleTheme}
         aria-label="Toggle Theme"
-        title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        className="login-theme-btn-mobile"
         style={{
           position: 'relative',
           zIndex: 10,
-          display: 'flex',
+          display: 'none',
           alignItems: 'center',
           gap: '7px',
           padding: '0.5rem 1.1rem',

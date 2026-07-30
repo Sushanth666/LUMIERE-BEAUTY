@@ -566,9 +566,18 @@ input[type="range"]::-webkit-slider-thumb {
 /* =====================
    GLOBAL MOBILE UTILITIES
    ===================== */
+
+/* Login page theme toggle: desktop = absolute top-right, mobile = below logo */
+.login-theme-btn-desktop { display: flex !important; }
+.login-theme-btn-mobile  { display: none !important; }
+
 @media (max-width: 768px) {
   .hidden-mobile { display: none !important; }
   .show-mobile { display: flex !important; }
+
+  /* Swap which theme toggle is visible */
+  .login-theme-btn-desktop { display: none !important; }
+  .login-theme-btn-mobile  { display: flex !important; }
 
   /* Extra bottom padding so content doesn't hide behind mobile nav */
   body {
