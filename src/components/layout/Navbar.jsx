@@ -113,9 +113,9 @@ export default function Navbar() {
             </div>
 
             {/* Actions */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              {/* Search */}
-              <button onClick={openSearch} style={{
+            <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              {/* Search – hidden on mobile (bottom nav has search) */}
+              <button onClick={openSearch} className="hidden-mobile" style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: '8px', borderRadius: '50%', color: 'var(--text-primary)',
                 transition: 'all 0.2s', display: 'flex', alignItems: 'center',
@@ -126,10 +126,11 @@ export default function Navbar() {
                 <Search size={20} />
               </button>
 
-              {/* Compare Products */}
+              {/* Compare Products – hidden on mobile */}
               <button
                 onClick={() => setIsCompareOpen(true)}
                 title="Compare Products"
+                className="hidden-mobile"
                 style={{
                   position: 'relative',
                   background: 'none', border: 'none', cursor: 'pointer',
@@ -215,14 +216,14 @@ export default function Navbar() {
                 </button>
               )}
 
-              {/* Mobile menu toggle */}
+              {/* Mobile hamburger – hidden on mobile (bottom MobileNav handles it) */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="show-mobile"
+                className="hidden-mobile"
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   padding: '8px', borderRadius: '8px', color: 'var(--text-primary)',
-                  display: 'none',
+                  display: 'flex',
                 }}
               >
                 {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -265,15 +266,6 @@ export default function Navbar() {
       {/* Search Overlay */}
       <SearchOverlay />
 
-      <style>{`
-        @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
-        }
-        @media (max-width: 768px) {
-          .show-mobile { display: flex; }
-        }
-      `}</style>
     </>
   );
 }
